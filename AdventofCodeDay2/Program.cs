@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Reflection.Metadata.Ecma335;
 
 namespace AdventofCodeDay2
 {
@@ -42,8 +41,6 @@ namespace AdventofCodeDay2
         public Checksum(List<List<int>> input)
         {
             _input = input ?? throw new ArgumentNullException(nameof(input));
-
-            
         }
 
         public int GetChecksum()
