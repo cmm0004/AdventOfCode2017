@@ -31,6 +31,7 @@ namespace AdventofCodeDay2
         {
             var checksum = new Checksum(PuzzleInput);
             Console.WriteLine(checksum.GetChecksum());
+            Console.WriteLine(checksum.GetCheckSum_part2());
             Console.ReadKey();
         }
     }
@@ -54,7 +55,7 @@ namespace AdventofCodeDay2
                 differences.Add(maxForList - minForList);
             }
 
-            return differences.Aggregate((current, next) => current + next);
+            return differences.Sum();
         }
 
         public int GetCheckSum_part2()
@@ -63,28 +64,31 @@ namespace AdventofCodeDay2
             foreach (List<int> innerlist in _input)
             {
                 bool foundQuotient = false;
-                for (int i = 0; i < innerlist.Count; i++)
+
+                var temp = innerlist.OrderByDescending(x => x).ToList();
+                // 16 int list
+                var bigNumbers = temp.Take(8).ToList();
+                var littleNumbers = temp.Skip(8).ToList();
+
+                while (!foundQuotient)
                 {
-                    if (foundQuotient)
-                        break;
-                    if (innerlist.Count - i >= 0)
+                    for (int i = 0; i < bigNumbers.Count; i++)
                     {
-                        var quotient = ((float) innerlist[i] / (float) innerlist[i + 1] % 1);
-                        if (quotient == 0.0)
+                        var quotient = (float)bigNumbers[i] / (float)littleNumbers[i];
+                        if (Math.Abs(quotient) - quotient < .001)
                         {
-                            quotients.Add((int)quotient);
+                            quotients.Add((int) quotient);
                             foundQuotient = true;
+                            break;
                         }
-
+                        
                     }
-
+                    littleNumbers.Add(littleNumbers.First());
+                    littleNumbers.RemoveAt(0);
                 }
-                if (foundQuotient)
-                    break;
-                
-                innerlist.Add(innerlist.First());
-                innerlist.RemoveAt(0);
             }
+
+            return quotients.Sum();
         }
     }
 }
