@@ -56,5 +56,35 @@ namespace AdventofCodeDay2
 
             return differences.Aggregate((current, next) => current + next);
         }
+
+        public int GetCheckSum_part2()
+        {
+            List<int> quotients = new List<int>();
+            foreach (List<int> innerlist in _input)
+            {
+                bool foundQuotient = false;
+                for (int i = 0; i < innerlist.Count; i++)
+                {
+                    if (foundQuotient)
+                        break;
+                    if (innerlist.Count - i >= 0)
+                    {
+                        var quotient = ((float) innerlist[i] / (float) innerlist[i + 1] % 1);
+                        if (quotient == 0.0)
+                        {
+                            quotients.Add((int)quotient);
+                            foundQuotient = true;
+                        }
+
+                    }
+
+                }
+                if (foundQuotient)
+                    break;
+                
+                innerlist.Add(innerlist.First());
+                innerlist.RemoveAt(0);
+            }
+        }
     }
 }
