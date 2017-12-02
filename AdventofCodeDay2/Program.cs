@@ -60,6 +60,7 @@ namespace AdventofCodeDay2
 
         public int GetCheckSum_part2()
         {
+            var totalquotientchecks = 0;
             List<int> quotients = new List<int>();
             foreach (List<int> innerlist in _input)
             {
@@ -74,10 +75,10 @@ namespace AdventofCodeDay2
                 {
                     for (int i = 0; i < bigNumbers.Count; i++)
                     {
-                        var quotient = (float)bigNumbers[i] / (float)littleNumbers[i];
-                        if (Math.Abs(quotient) - quotient < .001)
+                        totalquotientchecks++;
+                        if (bigNumbers[i] % littleNumbers[i] == 0)
                         {
-                            quotients.Add((int) quotient);
+                            quotients.Add(bigNumbers[i] / littleNumbers[i]);
                             foundQuotient = true;
                             break;
                         }
@@ -87,7 +88,7 @@ namespace AdventofCodeDay2
                     littleNumbers.RemoveAt(0);
                 }
             }
-
+            Console.WriteLine(totalquotientchecks);
             return quotients.Sum();
         }
     }
